@@ -13,17 +13,17 @@ import org.litepal.crud.DataSupport;
  * Created by yuxin.
  * Created time 2016/10/16 0016 上午 9:18.
  * Version   1.0;
- * Describe :
+ * Describe : Music_的bean类 实现Parcelable序列化
  * History:
  * ==============================================================================
  */
 
 public class Music_ extends DataSupport implements Parcelable {
 
-    private int id;
-    private String name;
-    private String author;
-    private String path;
+    private int id;  //id
+    private String name;  //歌曲名称
+    private String author;  //歌手
+    private String path;  //歌曲路径
 
 
     public Music_() {

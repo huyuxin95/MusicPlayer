@@ -31,6 +31,11 @@ public class MusicUtil {
     private static ContentResolver contentResolver;
 
 
+    /**
+     * 获取SD卡所有的音乐
+     * @param context
+     * @return
+     */
     public static List<Music_> getMusic(Context context) {
         List<Music_> olist = null;
          int index=0;
@@ -50,6 +55,11 @@ public class MusicUtil {
         return olist;
     }
 
+    /**
+     * 获取SD卡获取到的第一首歌曲
+     * @param context
+     * @return
+     */
     public static Music_ getFirstMusic(Context context) {
         Music_ music=new Music_();
         contentResolver = context.getContentResolver();

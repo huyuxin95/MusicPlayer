@@ -23,7 +23,7 @@
                 <action android:name="music_service"></action>
             </intent-filter>
         </service>
-        <receiver android:name=".MusicReceiver">
+        <receiver android:name=".receiver.MusicReceiver">
             <intent-filter>
                 <action android:name="GongNengFragment"></action>
             </intent-filter>

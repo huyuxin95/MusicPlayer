@@ -18,7 +18,7 @@ import com.jju.yuxin.musicplayer.R;
  * Created by yuxin.
  * Created time 2016/10/16 0016 上午 12:44.
  * Version   1.0;
- * Describe :
+ * Describe : 搜一搜fragment
  * History:
  * ==============================================================================
  */
@@ -36,9 +36,10 @@ public class SousuoFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_frament_sousuo,container,false);
-
+        //设置一个webview的地址为"http://m.baidu.com"
         wv_baidu = (WebView) view.findViewById(R.id.wv_baidu);
         wv_baidu.loadUrl("http://m.baidu.com");
+        //不开启第三方浏览器
         wv_baidu.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -46,6 +47,7 @@ public class SousuoFragment extends BaseFragment {
                 return true;
             }
         });
+        //支持js
         WebSettings settings = wv_baidu.getSettings();
         settings.setJavaScriptEnabled(true);
         return view;

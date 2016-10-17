@@ -36,7 +36,7 @@ import static android.util.Log.i;
  * Created by yuxin.
  * Created time 2016/10/16 0016 上午 12:44.
  * Version   1.0;
- * Describe :
+ * Describe : 听听界面fragment
  * History:
  * ==============================================================================
  */
@@ -69,11 +69,13 @@ public class TingtingFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //开启播放音乐的服务
         activity = (MainActivity) getActivity();
         Intent intentservice = new Intent("music_service");
         intentservice.setPackage("com.jju.yuxin.musicplayer");
         activity.startService(intentservice);
 
+        //动态注册广播
         tingtingService = new TingtingService();
         intentFilte = new IntentFilter("TingtingService");
         activity.registerReceiver(tingtingService, intentFilte);
@@ -87,6 +89,7 @@ public class TingtingFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.layout_frament_tingting, container, false);
         initialize(view);
         qukuFragment = new QukuFragment();
+        //获取到点击的歌曲
         qukuFragment.SetOnListViewClickListener(new QukuFragment.OnListViewClickChangeListener() {
             @Override
             public void OnItemClicked(Music_ music_) {
@@ -99,19 +102,23 @@ public class TingtingFragment extends BaseFragment {
         return view;
     }
 
+    /**
+     * 初始化控件和设置监听事件
+     * @param view
+     */
     private void initialize(View view) {
-        lv_musics = MusicUtil.getMusic(activity);
-        Mylistener listener = new Mylistener();
-        tvusername = (TextView) view.findViewById(R.id.tv_username);
-        tvname = (TextView) view.findViewById(R.id.tv_name);
-        tvauther = (TextView) view.findViewById(R.id.tv_auther);
-        starttime = (TextView) view.findViewById(R.id.start_time);
-        seek = (SeekBar) view.findViewById(R.id.seek);
-        endtime = (TextView) view.findViewById(R.id.end_time);
-        ibup = (ImageButton) view.findViewById(R.id.ib_up);
-        ibplay = (ImageButton) view.findViewById(R.id.ib_play);
-        ibdown = (ImageButton) view.findViewById(R.id.ib_down);
-        ibmode = (ImageButton) view.findViewById(R.id.ib_mode);
+        lv_musics = MusicUtil.getMusic(activity); //获取所有歌曲
+        Mylistener listener = new Mylistener();  //获取监听器对象
+        tvusername = (TextView) view.findViewById(R.id.tv_username);//标题名
+        tvname = (TextView) view.findViewById(R.id.tv_name);//歌曲名
+        tvauther = (TextView) view.findViewById(R.id.tv_auther);//歌手名
+        starttime = (TextView) view.findViewById(R.id.start_time);//当前时间
+        seek = (SeekBar) view.findViewById(R.id.seek);//拖动条
+        endtime = (TextView) view.findViewById(R.id.end_time);//总时间
+        ibup = (ImageButton) view.findViewById(R.id.ib_up);//上一曲
+        ibplay = (ImageButton) view.findViewById(R.id.ib_play);//播放
+        ibdown = (ImageButton) view.findViewById(R.id.ib_down);//下一曲
+        ibmode = (ImageButton) view.findViewById(R.id.ib_mode);//播放模式
         ibplay.setOnClickListener(listener);
         ibup.setOnClickListener(listener);
         ibdown.setOnClickListener(listener);
@@ -131,12 +138,15 @@ public class TingtingFragment extends BaseFragment {
                     ib_play();
                     break;
                 case R.id.ib_up:
+                    //上一曲
                     play_pre();
                     break;
                 case R.id.ib_down:
+                    //下一曲
                     play_next();
                     break;
                 case R.id.ib_mode:
+                    //修改循环模式
                     changemode();
                     break;
 
@@ -165,6 +175,7 @@ public class TingtingFragment extends BaseFragment {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
+            //当拖动条,拖动结束的时候执行下面代码
             Intent intent = new Intent("PlayService");
             intent.putExtra("palymusic", cur_music);
             intent.putExtra("state", state);
@@ -185,6 +196,7 @@ public class TingtingFragment extends BaseFragment {
         } else if (state == 3) {
             ibplay.setBackgroundResource(R.drawable.selector_ib_play);
         }
+        //第一次进入时,cur_music为空获取到列表的第一首歌
         if (cur_music == null) {
             cur_music = MusicUtil.getFirstMusic(activity);
             //如果当前没有播放歌曲,那么标志位新的播放一首歌曲
@@ -198,36 +210,41 @@ public class TingtingFragment extends BaseFragment {
     }
 
     /**
-     * 获取服务发送的广播
+     * 获取发送的广播
      */
-
     private class TingtingService extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             int dur = intent.getIntExtra("dur", 0);
             int cur = intent.getIntExtra("cur", 0);
             state = intent.getIntExtra("state", 1);
+            //标志来自于最近列表的点击
+            int zuijing = intent.getIntExtra("zuijing", 0);
             cur_music = intent.getParcelableExtra("music");
+            //如果传过来的歌曲对象不为空
             if (cur_music != null) {
                 tvname.setText(cur_music.getName());
                 tvauther.setText(cur_music.getAuthor());
             }
+            //设置歌曲时间
             starttime.setText(getTime(cur));
             endtime.setText(getTime(dur));
+            //如果当前是播放歌曲状态,修改播放图片为暂停
             if (state == 2) {
                 ibplay.setBackgroundResource(R.drawable.selector_ib_pause);
+                //如果当前是暂停状态,修改播放图片为播放
             } else if (state == 3) {
                 ibplay.setBackgroundResource(R.drawable.selector_ib_play);
             }
             seek.setMax(dur / 1000);
             seek.setProgress(cur / 1000);
+            //监听当前的歌曲是否播放结束
             boolean over = intent.getBooleanExtra("over", false);
             //播放模式
             if (over) {
                 switch (modeindex) {
                     //列表循环
                     case 0:
-
                         play_next();
                         break;
                     //随机循环
@@ -249,7 +266,10 @@ public class TingtingFragment extends BaseFragment {
                     default:
                         break;
                 }
-
+            }
+            //如果是从最近列表发送过来的广播,那么执行播放接受的音乐
+            if(zuijing==1){
+                play_();
             }
         }
     }
@@ -343,6 +363,11 @@ public class TingtingFragment extends BaseFragment {
 
     }
 
+    /**
+     * 对时间零的处理
+     * @param time
+     * @return
+     */
     public String zero_(int time) {
         if (time < 10) {
             return "0" + time;

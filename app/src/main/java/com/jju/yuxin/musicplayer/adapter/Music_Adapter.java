@@ -19,7 +19,7 @@ import java.util.List;
  * Created by yuxin.
  * Created time 2016/10/16 0016 上午 9:44.
  * Version   1.0;
- * Describe :
+ * Describe : 曲库Listview的适配器
  * History:
  * ==============================================================================
  */
@@ -28,6 +28,7 @@ public class Music_Adapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private List<Music_> music_;
+
     public Music_Adapter(Context context, List<Music_> musics) {
         this.context=context;
         this.music_=musics;

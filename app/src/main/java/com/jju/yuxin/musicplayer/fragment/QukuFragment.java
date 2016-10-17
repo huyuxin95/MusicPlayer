@@ -24,7 +24,7 @@ import java.util.List;
  * Created by yuxin.
  * Created time 2016/10/16 0016 上午 12:44.
  * Version   1.0;
- * Describe :
+ * Describe : 曲库的fragment
  * History:
  * ==============================================================================
  */
@@ -45,16 +45,20 @@ public class QukuFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //控件初始化
         View view = inflater.inflate(R.layout.layout_frament_quku, container, false);
         lv_music = (ListView) view.findViewById(R.id.lv_music);
+        //获取SD卡所有的音乐
         List<Music_> music = MusicUtil.getMusic(activity);
         final Music_Adapter adapter = new Music_Adapter(activity, music);
         lv_music.setAdapter(adapter);
+        //获取listview的点击事件
         lv_music.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 hlog.e("position"+position+"adapter"+adapter+"listener"+listeners);
+                //通过接口回调的方式将当前点击的音乐发送给第一个页面播放
                 listeners.OnItemClicked((Music_) adapter.getItem(position));
                 //跳转到界面一
                 activity.rbtabtingting.setChecked(true);

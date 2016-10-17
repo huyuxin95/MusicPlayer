@@ -19,7 +19,7 @@ import java.util.List;
  * Created by yuxin.
  * Created time 2016/10/16 0016 下午 9:11.
  * Version   1.0;
- * Describe :
+ * Describe : 最近播放列表ListView的适配器
  * History:
  * ==============================================================================
  */
@@ -41,7 +41,7 @@ public class ZuiJinAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return olist.get(position);
+        return olist.get(olist.size()-1-position);
     }
 
     @Override

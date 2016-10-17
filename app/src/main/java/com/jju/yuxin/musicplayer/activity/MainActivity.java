@@ -1,10 +1,8 @@
 package com.jju.yuxin.musicplayer.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -29,7 +27,7 @@ import java.util.List;
  * Created by yuxin.
  * Created time 2016/10/16 0016 上午 12:10.
  * Version   1.0;
- * Describe :
+ * Describe : 主Activity,在他的上面有个Fragmenttabhost
  * History:
  * ==============================================================================
  */
@@ -52,17 +50,25 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main_layout);
+        //初始化所有的fragment,添加到List中便于管理
         fragments = new ArrayList<>();
         fragments.add(new TingtingFragment());
         fragments.add(new QukuFragment());
         fragments.add(new SousuoFragment());
         fragments.add(new GongNengFragment());
+        //控件的初始化,与监听的初始化
         initialize();
     }
 
+    /**
+     * 控件的初始化,与监听的初始化
+     */
     private void initialize() {
+        //MainActivity里面显示fragment的位置
         flcontair = (FrameLayout) findViewById(R.id.fl_contair);
+        //fragmenttabhost
         fthhome = (FragmentTabHost) findViewById(R.id.fth_home);
+        //底部的RadioGroup
         rbtabtingting = (RadioButton) findViewById(R.id.rb_tab_tingting);
         rbtabquku= (RadioButton) findViewById(R.id.rb_tab_quku);
         rbtabsousuo = (RadioButton) findViewById(R.id.rb_tab_sousuo);
@@ -70,38 +76,17 @@ public class MainActivity extends BaseActivity {
         rg_tab_home = (RadioGroup) findViewById(R.id.rg_tab_home);
 
         fthhome.setup(getApplicationContext(), getSupportFragmentManager(), R.id.fl_contair);
-
+        //循环的向tabhost添加fragment
         for (int i = 0; i < fragments.size(); i++) {
+            //将一个隐藏的视图给tabs,达到隐藏tabs的目的
             View view = new View(this);
             view.setVisibility(View.GONE);
             TabHost.TabSpec tabSpec = fthhome.newTabSpec(String.valueOf(i)).setIndicator(view);
             fthhome.addTab(tabSpec, fragments.get(i).getClass(), null);
         }
- //       fthhome.setCurrentTab(CurrentTab);
-//        rg_tab_home.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                switch (checkedId) {
-//                    case R.id.rb_tab_tingting:
-//                        fthhome.setCurrentTab(0);
-//                        break;
-//                    case R.id.rb_tab_quku:
-//                        fthhome.setCurrentTab(1);
-//                        break;
-//                    case R.id.rb_tab_sousuo:
-//                        fthhome.setCurrentTab(2);
-//                        break;
-//                    case R.id.rb_tab_gongneng:
-//                        fthhome.setCurrentTab(3);
-//                        break;
-//
-//                    default:
-//                        break;
-//                }
-//            }
-//        });
-
+        //自定义个适配器使得fragment当被初始化后,切换页面时只会执行onpause()不会销毁
         FragmentTabAdapter tabAdapter = new FragmentTabAdapter(this, fragments, R.id.fl_contair, rg_tab_home);
+        //判断当前点击的是哪个fragment
         tabAdapter.setOnRgsExtraCheckedChangedListener(new FragmentTabAdapter.OnRgsExtraCheckedChangedListener(){
             @Override
             public void OnRgsExtraCheckedChanged(RadioGroup radioGroup, int checkedId, int index) {

@@ -24,7 +24,7 @@ import com.jju.yuxin.musicplayer.utils.MyLogger;
  *
  * Describe :项目中所有Activity的父类，用于管理通用的属性与方法
  *
- * History:
+ * History:BaseActivity用于控制所有activity
  *
  * Version   1.0.
  *
@@ -40,6 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //日志管理
         hlog= MyLogger.hLog();
 
         //打印输出当前所在activity
@@ -58,12 +59,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+    //执行finish时的动画
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_in_left_right,R.anim.anim_out_left_right);
     }
-
+    //当调用startactiityforresult时的动画
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

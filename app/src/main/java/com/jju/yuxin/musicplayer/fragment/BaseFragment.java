@@ -15,7 +15,7 @@ import com.jju.yuxin.musicplayer.utils.MyLogger;
  * Created by yuxin.
  * Created time 2016/9/24 0024 上午 11:46.
  * Version   1.0;
- * Describe :
+ * Describe : fragment的基类
  * History:
  * ==============================================================================
  */
@@ -31,6 +31,10 @@ public class BaseFragment extends Fragment {
       hlog=MyLogger.hLog();
     }
 
+    /**
+     * 设置调用startActivity的切换动画
+     * @param intent
+     */
     @Override
     public void startActivity(Intent intent) {
        getActivity().startActivity(intent);
