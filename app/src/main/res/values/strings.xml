@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MusicPlayer</string>
+    <string name="musiclist">歌曲列表</string>
+    <string name="musicname">歌曲名称</string>
+    <string name="musicauthor">歌手名称</string>
+    <string name="username">音乐</string>
+    <string name="start_time">00:00</string>
+    <string name="end_time">04:30</string>
+    <string name="zuijin">最近播放的音乐</string>
+</resources>

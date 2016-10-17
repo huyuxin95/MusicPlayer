@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fl_contair"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </FrameLayout>
+
+    <android.support.v4.app.FragmentTabHost
+        android:id="@+id/fth_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v4.app.FragmentTabHost>
+
+    <View
+        android:background="@color/wb_bg_grey"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hight_divider"></View>
+
+    <RadioGroup
+        android:id="@+id/rg_tab_home"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:background="@color/tab_white"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/rb_tab_tingting"
+            style="@style/home_tabbar_radiobutton"
+            android:checked="true"
+            android:background="@drawable/selector_tab_tingting"
+            />
+        <RadioButton
+            android:id="@+id/rb_tab_quku"
+            style="@style/home_tabbar_radiobutton"
+            android:background="@drawable/selector_tab_quku"
+            />
+        <RadioButton
+            android:id="@+id/rb_tab_sousuo"
+            style="@style/home_tabbar_radiobutton"
+            android:background="@drawable/selector_tab_sousuo"
+            />
+        <RadioButton
+            android:id="@+id/rb_tab_gongneng"
+            style="@style/home_tabbar_radiobutton"
+            android:background="@drawable/selector_tab_gongneng"
+            />
+    </RadioGroup>
+</LinearLayout>
