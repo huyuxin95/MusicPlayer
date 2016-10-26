@@ -32,6 +32,7 @@ import com.jju.yuxin.musicplayer.utils.MyLogger;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
+    
     public MyLogger hlog;
     private RelativeLayout rlcontent;
 
